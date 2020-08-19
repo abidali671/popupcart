@@ -1,12 +1,15 @@
 var popUpBox = ` <div id="cart-parent-box">
-<div id="cart-container-box">
+<div class="cart-container-box">
   <div id="cart-top">
     <h2>SHOPPING CART</h2>
     <button id="cart-close-btn">
     <i class="fas fa-times" ></i>
     </button>
   </div>
-  <div id="cart-item-box">
+
+
+
+  <div class="cart-item-box">
     <div id="cart-item-box-1">
       <div id="cart-item">
         <a href="#">
@@ -18,34 +21,62 @@ var popUpBox = ` <div id="cart-parent-box">
       </div>
     </div>
     <div id="cart-item-box-2">
-      <div id="item-times">
-        <button id="item-time-minus">-</button>
+      <div class="item-times nice-number">
+        <button class="item-time-minus">-</button>
         <input
           type="number"
-          id="item-times-input"
+          class="item-times-input"
           value="1"
           min="0"
-          data-line="1"
+          
         />
-        <button id="item-time-plus">+</button>
+        <button class="item-time-plus">+</button>
       </div>
-      <div id="item-price">$<span id="item-price-value">15,995</span><span class="zero">00</span></div>
-      <button id="item-close-btn-box">
-        <i class="fas fa-times" id="item-close-btn"></i>
+      <div id="item-price">$<span class="item-price-value">15,995</span><span class="zero">00</span></div>
+      <button class="item-close-btn-box">
+        <i class="fas fa-times item-close-btn" ></i>
       </button>
     </div>
   </div>
 
+
+
+  <div class="cart-item-box">
+  <div id="cart-item-box-1">
+    <div id="cart-item">
+      <a href="#">
+        <img src="image/Leica_S-002_medium.webp" alt="item"
+      /></a>
+    </div>
+    <div id="item-detail">
+      <a href="#">Leica S (Typ 006) / 70mm Lens Set</a>
+    </div>
+  </div>
+  <div id="cart-item-box-2">
+    <div class="item-times nice-number">
+      <button class="item-time-minus">-</button>
+      <input
+        type="number"
+        class="item-times-input"
+        value="1"
+        min="0"
+        
+      /><button class="item-time-plus">+</button>
+    </div>
+    <div id="item-price">$<span class="item-price-value">15,995</span><span class="zero">00</span></div>
+    <button class="item-close-btn-box">
+      <i class="fas fa-times item-close-btn" ></i>
+    </button>
+  </div>
+</div>
+
+
   
-
-
-
-
   <div id="cart-bottom">
     <div id="total-amount">
       <div id="amount-text">Subtotal</div>
       <div id="item-total-amount">
-        $<span id="total-amount-value"></span><span class="zero">00</span>
+        $<span class="total-amount-value"></span><span class="zero">00</span>
       </div>
     </div>
     <div id="bottom-text">
@@ -59,7 +90,6 @@ var popUpBox = ` <div id="cart-parent-box">
 </div>
 <div class="a"></div>`;
 // No Formater
-var formater = new Intl.NumberFormat("en");
 // Add Element in HTML with ID name = pop-up-tag
 var tagHtml = document.getElementById("pop-up-tag");
 
@@ -68,14 +98,6 @@ var btn = document.getElementById("btn-pop");
 
 btn.addEventListener("click", function () {
   tagHtml.innerHTML += popUpBox;
-
-  // Var
-  var itemBox = document.getElementById("cart-item-box");
-  var totalPrice = document.getElementById("total-amount-value");
-  var itemPrice = document.getElementById("item-price-value");
-  totalPrice.textContent = formater.format(
-    itemPrice.textContent.replace(/,/g, "")
-  );
 
   var closeBtn = document.getElementById("cart-close-btn");
   closeBtn.addEventListener("click", function () {
@@ -86,42 +108,86 @@ btn.addEventListener("click", function () {
       tagHtml.innerHTML = "";
     }, 1000);
   });
-  // Item Increment and Decrement Function
-  var plus = document.getElementById("item-time-plus");
-  var minus = document.getElementById("item-time-minus");
-  var input = document.getElementById("item-times-input");
-  var inputValue = input.value;
+  // Remove Item From Cart Function
+  var removeCartItemButtons = document.getElementsByClassName(
+    "item-close-btn-box"
+  );
 
-  // var inputValue = 1;
+  for (var i = 0; i < removeCartItemButtons.length; i++) {
+    var button = removeCartItemButtons[i];
+    button.addEventListener("click", function (event) {
+      var buttonClicked = event.target;
+      buttonClicked.parentElement.parentElement.parentElement.remove();
+      updateCartTotal();
+    });
+  }
+  ///////////////////////////////////////////////////////////////
+  // Add Quantity Function
+  var quantityInputs = document.getElementsByClassName("item-times-input");
+  var incQuantity = document.getElementsByClassName("item-time-plus");
+  var decQuantity = document.getElementsByClassName("item-time-minus");
 
-  plus.addEventListener("click", function () {
-    input.value++;
-    inputValue++;
-
-    // Change Item Price on Increment and Decrement
-
-    totalPrice.textContent = formater.format(
-      Number(itemPrice.textContent.replace(/,/g, "")) * inputValue
-    );
-  });
-
-  minus.addEventListener("click", function () {
-    if (input.value == 1) {
-      return;
-    } else {
-      inputValue--;
-      input.value--;
-
-      // Change Item Price on Increment and Decrement
-      totalPrice.textContent = formater.format(
-        Number(itemPrice.textContent.replace(/,/g, "")) * inputValue
-      );
+  ///////////////////////////////////////////////////////////////
+  // Increase Item
+  for (var i = 0; i < incQuantity.length; i++) {
+    var increase = incQuantity[i];
+    increase.addEventListener("click", increaseValue);
+  }
+  function increaseValue() {
+    this.previousElementSibling.value++;
+    updateCartTotal();
+  }
+  ///////////////////////////////////////////////////////////////
+  // Decrease Item
+  for (var i = 0; i < decQuantity.length; i++) {
+    var decrease = decQuantity[i];
+    decrease.addEventListener("click", decreaseValue);
+  }
+  function decreaseValue() {
+    if (this.nextElementSibling.value > 1) {
+      this.nextElementSibling.value--;
+      updateCartTotal();
     }
-  });
+  }
+  ///////////////////////////////////////////////////////////////
 
-  var itemRmBtn = document.getElementById("item-close-btn-box");
-  itemRmBtn.addEventListener("click", function () {
-    console.log(itemRmBtn.parentNode.parentNode.parentNode);
-    itemRmBtn.parentNode.parentNode.parentNode.removeChild(itemBox);
-  });
+  for (var i = 0; i < quantityInputs.length; i++) {
+    var input = quantityInputs[i];
+    input.addEventListener("change", quantityChanged);
+  }
+  function quantityChanged(event) {
+    updateCartTotal();
+    var input = event.target;
+    if (isNaN(input.value) || input.value <= 0) {
+      input.value = 1;
+    }
+  }
+
+  ///////////////////////////////////////////////////////////////
+  // Update Total Price Function
+  function updateCartTotal() {
+    var cartItemContainer = document.getElementsByClassName(
+      "cart-item-container"
+    )[0];
+    var cartRows = document.getElementsByClassName("cart-item-box");
+    var total = 0;
+    for (var i = 0; i < cartRows.length; i++) {
+      var cartRow = cartRows[i];
+      var priceElement = cartRow.getElementsByClassName("item-price-value")[0];
+      var quantityElement = cartRow.getElementsByClassName(
+        "item-times-input"
+      )[0];
+
+      var price = parseFloat(priceElement.innerText.replace(",", ""));
+      var quantity = quantityElement.value;
+      total = total + price * quantity;
+    }
+
+    document.getElementsByClassName(
+      "total-amount-value"
+    )[0].innerText = new Intl.NumberFormat().format(total);
+  }
+  updateCartTotal();
+
+  ///////////////////////////////////////////////////////////////
 });

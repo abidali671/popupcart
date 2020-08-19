@@ -28,7 +28,7 @@ input[type="number"]::-webkit-outer-spin-button {
   left: 0%;
 }
 
-#cart-container-box {
+.cart-container-box {
   z-index: 99999;
   position: absolute;
   top: 10%;
@@ -77,13 +77,13 @@ input[type="number"]::-webkit-outer-spin-button {
   height: 16px;
 }
 
-#item-close-btn-box {
+.item-close-btn-box {
   border: 0px;
   height: 18px;
   width: 18px;
   background: none;
 }
-#item-close-btn {
+.item-close-btn {
   font-size: 14px;
   text-align: center;
   cursor: pointer;
@@ -96,7 +96,7 @@ input[type="number"]::-webkit-outer-spin-button {
   line-height: 18px;
 }
 
-#cart-item-box {
+.cart-item-box {
   width: 100%;
   margin-top: 30px;
   padding-top: 30px;
@@ -121,30 +121,30 @@ input[type="number"]::-webkit-outer-spin-button {
   line-height: 1.6;
   color: #585858;
 }
-#item-times {
+.item-times {
   height: 30px;
   line-height: 30px;
   text-align: center;
   margin-left: 30px;
   display: flex;
 }
-#item-times #item-time-minus,
-#item-times #item-time-plus {
+.item-time-minus,
+.item-time-plus {
   border: 1px solid rgba(0, 0, 0, 0.1);
   background: #fff;
   cursor: pointer;
   padding: 0 10px;
 }
-#item-times #item-time-minus:hover,
-#item-times #item-time-plus:hover {
+.item-time-minus:hover,
+.item-time-plus:hover {
   background-color: #ececec;
 }
-#item-times #item-time-minus:active,
-#item-times #item-time-plus:active {
+.item-time-minus:active,
+.item-time-plus:active {
   background-color: #d3d3d3;
 }
 
-#item-times #item-times-input {
+.item-times-input {
   width: 50px;
   outline: none;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -207,17 +207,17 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 /* Responsive */
 @media (max-width: 768px) {
-  #cart-container-box {
+  .cart-container-box {
     padding: 15px;
     width: 90%;
   }
   #cart-item img[alt="item"] {
     width: 80%;
   }
-  #cart-item-box {
+  .cart-item-box {
     flex-direction: column;
   }
-  #item-times {
+  .item-times {
     margin-left: 35%;
     padding-left: 0;
     width: 100px;
@@ -231,23 +231,23 @@ input[type="number"]::-webkit-outer-spin-button {
   #cart-item-box-2 {
     justify-content: start;
   }
-  #item-close-btn-box {
+  .item-close-btn-box {
     margin-left: auto;
   }
 }
 @media (max-width: 550px) {
-  #cart-container-box {
+  .cart-container-box {
     padding: 10px;
     width: 100%;
   }
 }
 @media (max-width: 475px) {
-  #item-times {
+  .item-times {
     margin-left: 20px;
   }
 }
 @media (max-width: 400px) {
-  #item-times {
+  .item-times {
     margin-left: 10px;
   }
   #item-price {
